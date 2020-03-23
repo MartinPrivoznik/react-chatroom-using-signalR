@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using chatroomserver.Models;
 using chatroomserver.Core;
+using chatroomserver.Helpers;
+using chatroomserver.Helpers.ResponseModel;
 
 namespace chatroomserver.Repository
 {
@@ -67,25 +69,27 @@ namespace chatroomserver.Repository
             });
         }
 
-        public Task PostUsers(Users users)
+        public async Task<ResponseStatus> PostUsers(Users users)
         {
-            return Task.Run(() =>
+            if (UsersExists(users.Id))
             {
-                if (_context.Users.Any(usr => usr.Id == users.Id))
+                //Add to socket channel
+                return new ResponseStatus(ReturnStatus.Status.UserExists);
+            }
+            else
+            {
+                try
                 {
+                    _context.Users.Add(users);
+                    await _context.SaveChangesAsync();
+                    return new ResponseStatus(ReturnStatus.Status.OK);
                 }
-                else
+                catch (DbUpdateException e)
                 {
-                    try
-                    {
-                        _context.Users.Add(users);
-                        _context.SaveChangesAsync();
-                    }
-                    catch (DbUpdateException e)
-                    {
-                    }
+                    return new ResponseStatus(ReturnStatus.Status.DatabaseError, e.Message);
                 }
-            });
+            }
+            
         }
 
         public async Task<Users> DeleteUsers(string id)

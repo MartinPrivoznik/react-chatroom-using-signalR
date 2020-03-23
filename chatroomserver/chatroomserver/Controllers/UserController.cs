@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using chatroomserver.Core;
+using chatroomserver.Helpers.ResponseModel;
 using chatroomserver.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -43,7 +44,12 @@ namespace chatroomserver.Controllers
         {
             try
             {
-                await _usersController.PostUsers(user);
+                var response = await _usersController.PostUsers(user);
+
+                if (response.Status == ReturnStatus.Status.DatabaseError)
+                {
+                    return new { error = response.Message };
+                }
             }
             catch (Exception e)
             {

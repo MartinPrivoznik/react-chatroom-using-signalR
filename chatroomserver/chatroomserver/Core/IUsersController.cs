@@ -1,4 +1,5 @@
-﻿using chatroomserver.Models;
+﻿using chatroomserver.Helpers.ResponseModel;
+using chatroomserver.Models;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 
@@ -9,7 +10,7 @@ namespace chatroomserver.Core
         Task<Users> DeleteUsers(string id);
         Task<IEnumerable<Users>> GetUsers();
         Task<Users> GetUsers(string id);
-        Task PostUsers(Users users);
+        Task<ResponseStatus> PostUsers(Users users);
         Task PutUsers(string id, Users users);
     }
 }
