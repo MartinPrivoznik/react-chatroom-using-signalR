@@ -2,10 +2,10 @@ import React from "react";
 import { useAuthContext } from "../../providers/AuthProvider";
 import { Redirect } from "react-router";
 
-export const SignInCallback = props => {
+export const SignOutCallback = props => {
     const [{ userManager }] = useAuthContext();
-    userManager.signinRedirectCallback();
-    return <Redirect to="/chat" />;
+    userManager.signoutRedirectCallback();
+    return <Redirect to="/" />;
 }
 
-export default SignInCallback;
+export default SignOutCallback;

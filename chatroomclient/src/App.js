@@ -7,7 +7,9 @@ import { ApplicationProvider } from './providers/ApplicationProvider';
 import { AuthProvider } from './providers/AuthProvider';
 
 import MainPage from './components/main-page'
+import ChatPage from './components/chat-page'
 import SignInCallback from "./components/auth/sign-in-callback";
+import SignOutCallback from "./components/auth/sign-out-callback";
 
 export default class App extends Component {
   static displayName = App.name;
@@ -18,6 +20,8 @@ export default class App extends Component {
             <AuthProvider>
               <Switch>
                 <Route path="/oidc-callback" component={SignInCallback} />
+                <Route path="/oidc-signout-callback" component={SignOutCallback} />
+                <Route path="/chat" component={ChatPage} />
                 <Route exact path="/" component={MainPage} />
               </Switch>
             </AuthProvider>

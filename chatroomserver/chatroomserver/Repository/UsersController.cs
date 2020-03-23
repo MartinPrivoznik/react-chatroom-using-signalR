@@ -71,23 +71,20 @@ namespace chatroomserver.Repository
         {
             return Task.Run(() =>
             {
-                _context.Users.Add(users);
-                try
+                if (_context.Users.Any(usr => usr.Id == users.Id))
                 {
-                    _context.SaveChangesAsync();
                 }
-                catch (DbUpdateException)
+                else
                 {
-                    if (UsersExists(users.Id))
+                    try
                     {
-                        return null;
+                        _context.Users.Add(users);
+                        _context.SaveChangesAsync();
                     }
-                    else
+                    catch (DbUpdateException e)
                     {
-                        throw;
                     }
                 }
-                return null;
             });
         }
 

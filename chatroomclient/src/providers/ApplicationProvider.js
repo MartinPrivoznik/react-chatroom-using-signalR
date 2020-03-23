@@ -2,7 +2,7 @@
 
 export const SET_TITLE = "SET_TITLE";
 
-const initialState = { title: "" };
+const initialState = { title: "", userSigned: false };
 
 const reducer = (state, action) => {
     switch (action.type) {
