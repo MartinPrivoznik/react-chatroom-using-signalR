@@ -10,6 +10,7 @@ import MainPage from './components/main-page'
 import ChatPage from './components/chat-page'
 import SignInCallback from "./components/auth/sign-in-callback";
 import SignOutCallback from "./components/auth/sign-out-callback";
+import SilentRenew from "./components/auth/SilentRenew"
 
 export default class App extends Component {
   static displayName = App.name;
@@ -21,6 +22,7 @@ export default class App extends Component {
               <Switch>
                 <Route path="/oidc-callback" component={SignInCallback} />
                 <Route path="/oidc-signout-callback" component={SignOutCallback} />
+                <Route path="/oidc-silent-renew" component={SilentRenew} />
                 <Route path="/chat" component={ChatPage} />
                 <Route exact path="/" component={MainPage} />
               </Switch>

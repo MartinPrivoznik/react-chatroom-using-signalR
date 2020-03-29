@@ -26,9 +26,18 @@ namespace chatroomserver.Controllers
 
         // GET: api/User
         [HttpGet]
-        public IEnumerable<string> Get()
+        public async Task<ActionResult<object>> GetUsers()
         {
-            return new string[] { "value1", "value2" };
+            try
+            {
+                
+                var response = await _usersController.GetUsers();
+                return Ok(response);
+            }
+            catch (Exception e)
+            {
+                return Conflict(new { error = e.Message });
+            }
         }
 
         // GET: api/User/5
@@ -55,8 +64,9 @@ namespace chatroomserver.Controllers
             {
                 return Conflict(new { error = e.Message });
             }
-            
-            return Ok( (await _usersController.GetUsers()).ToArray());
+
+            return Ok();
+            //return Ok( (await _usersController.GetUsers()).ToArray());
         }
 
         // PUT: api/User/5

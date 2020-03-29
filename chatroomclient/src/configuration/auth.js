@@ -3,7 +3,7 @@
     client_id: process.env.REACT_APP_IDENTITY_CLIENT_ID,
     redirect_uri: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/oidc-callback`,
     login: process.env.REACT_APP_AUTH_URL + "/oauth2/authorize",
-    automatic_silent_renew: false,
+    automatic_silent_renew: true,
     load_user_info: true,
     silent_redirect_uri: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/oidc-silent-renew`,
     post_logout_redirect_uri: `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}/oidc-signout-callback`,

@@ -1,12 +1,65 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import '../../CSS/chatroom.css';
 import { useAuthContext } from "../../providers/AuthProvider";
 
 export const SidePanel = props => {
     const [{ userManager, profile, idToken }] = useAuthContext();
+    const [usersLoaded, setUsersLoaded] = useState(false);
+    const [conversations, setConversations] = useState([]);
 
-    
+    const getUsers = () => {
+        (async () => {
+            const res = await fetch(process.env.REACT_APP_API_URL + "/user" ,{
+                method: "GET",
+                headers: {
+                    Authorization: "Bearer " + idToken,
+                    "Content-Type": "application/json"
+                }
+            });
+            if (res.ok) {
+                const users = await res.json();
+                let convos = [];
+                for (let index = 0; index < users.length; index++) {
+                    convos.push(
+                        <li className="contact" key = {index}>
+                            <div className="wrap">
+                                <div className="meta">
+                                    <p className="name">{users[index].givenName} {users[index].middleName} {users[index].lastName}</p>
+                                    <p className="preview">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Integer lacinia. Integer malesuada.</p>
+                                </div>
+                            </div> 
+                        </li>
+                    );
+                  }
+                  setConversations(convos);
+                  setUsersLoaded(true);
 
+            } else {
+                console.log("error");
+            }
+        })();
+    }
+
+    if(!usersLoaded)
+    {
+        getUsers();
+        return (
+            <div id="sidepanel">
+                <div id="profile">
+                    <div className="wrap">
+                        <h3>Loading users...</h3>
+                    </div>
+                </div>
+                <div id="bottom-bar">
+                <button id="addcontact" onClick={
+                () => { userManager.signoutRedirect({ id_token_hint: idToken }); userManager.clearStaleState() }
+            }><span>Odhlásit</span></button>
+            </div>
+            </div>
+        );
+    }
+    else
+    {
     return (
         <div id="sidepanel">
             <div id="profile">
@@ -20,30 +73,7 @@ export const SidePanel = props => {
             </div>
             <div id="contacts">
                 <ul style={{"listStyleType" : 'none', "paddingLeft": "0px"}}>
-                    <li className="contact active">
-                        <div className="wrap">
-                            <div className="meta">
-                                <p className="name">Nějaký jméno asi Honza</p>
-                                <p className="preview">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Integer lacinia. Integer malesuada.</p>
-                            </div>
-                        </div> 
-                    </li>
-                    <li className="contact">
-                        <div className="wrap">
-                            <div className="meta">
-                                <p className="name">Blanka Protrhlá</p>
-                                <p className="preview">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In convallis. Integer rutrum, orci vestibulum ullamcorper ultricies, lacus quam ultricies odio, vitae placerat pede sem sit amet enim</p>
-                            </div>
-                        </div> 
-                    </li>
-                    <li className="contact">
-                        <div className="wrap">
-                            <div className="meta">
-                                <p className="name">Karel Kebab</p>
-                                <p className="preview">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In convallis. Integer rutrum, orci vestibulum ullamcorper ultricies, lacus quam ultricies odio, vitae placerat pede sem sit amet enim</p>
-                            </div>
-                        </div> 
-                    </li>
+                    {conversations}
                 </ul>
             </div>
             <div id="bottom-bar">
@@ -52,6 +82,7 @@ export const SidePanel = props => {
             }><span>Odhlásit</span></button>
             </div>
         </div>);
+    }
 }
 
 export default SidePanel;

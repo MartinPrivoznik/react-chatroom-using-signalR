@@ -1,13 +1,15 @@
 ﻿import React, { useReducer, createContext, useContext } from "react";
+import chatModel from '../model/chat-model';
 
 export const SET_TITLE = "SET_TITLE";
+export const SET_USER_SIGNED = "SET_USER_SIGNED";
 
-const initialState = { title: "", userSigned: false };
+const initialState = chatModel.initialize();
 
 const reducer = (state, action) => {
     switch (action.type) {
-        case SET_TITLE: {
-            return { ...state, title: action.payload };
+        case SET_USER_SIGNED: {
+            return { ...state, userSigned: action.payload };
         }
         default: {
             return state;

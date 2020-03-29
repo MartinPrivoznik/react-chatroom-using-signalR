@@ -43,7 +43,7 @@ namespace chatroomserver
                 });
             });
 
-            services.AddSingleton<pslib_chatroomContext>();
+            services.AddDbContext<pslib_chatroomContext>();
 
             services.AddTransient<IMessagesController, MessagesController>();
             services.AddTransient<IUsersController, UsersController>();
