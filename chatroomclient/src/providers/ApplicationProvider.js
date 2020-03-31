@@ -5,6 +5,7 @@ export const SET_USER_SIGNED = "SET_USER_SIGNED";
 export const SWITCH_USER = "SWITCH_USER";
 export const SET_USERS_LOADED = "SET_USERS_LOADED";
 export const LOAD_CONVERSATIONS = "LOAD_CONVERSATIONS";
+export const FILTER_USERS = "FILTER_USERS";
 
 const initialState = chatModel.initialize();
 
@@ -24,6 +25,10 @@ const reducer = (state, action) => {
         }
         case LOAD_CONVERSATIONS: {
             model.LoadConversations(action.payload.convos);
+            return model;
+        }
+        case FILTER_USERS: {
+            model.Filter(action.payload);
             return model;
         }
         default: {

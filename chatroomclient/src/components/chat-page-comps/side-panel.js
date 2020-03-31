@@ -5,7 +5,11 @@ import { useApplicationContext } from "../../providers/ApplicationProvider";
 
 export const SidePanel = props => {
     const [{ userManager, profile, idToken }] = useAuthContext();
-    const [{ usersLoaded, active_user, chats }, dispatch] = useApplicationContext();
+    const [{ usersLoaded, active_user, filtered_chats }, dispatch] = useApplicationContext();
+
+    const isEmptyOrSpaces = str => {
+        return str === null || str.match(/^ *$/) !== null;
+    }
 
     const getUsers = () => {
         (async () => {
@@ -22,7 +26,7 @@ export const SidePanel = props => {
                 for (let index = 0; index < users.length; index++) {
                     convos.push({
                         id: users[index].id,
-                        wholeName: users[index].givenName + " " + users[index].middleName + " " + users[index].lastName,
+                        wholeName: isEmptyOrSpaces(users[index].middleName) ? users[index].givenName + " " + users[index].lastName : users[index].givenName + " " + users[index].middleName + " " + users[index].lastName,
                         lastMessage: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Integer lacinia. Integer malesuada."
                     }
                     );
@@ -36,13 +40,13 @@ export const SidePanel = props => {
     }
 
     let convosWindow = [];
-    for (let i = 0; i < chats.length; i++) {
+    for (let i = 0; i < filtered_chats.length; i++) {
         convosWindow.push(
-            <li className={active_user === chats[i] ? "contact active" : "contact"} key={i} onClick={() => { dispatch({ type: "SWITCH_USER", payload: chats[i] }) }}>
+            <li className={active_user === filtered_chats[i] ? "contact active" : "contact"} key={i} onClick={() => { dispatch({ type: "SWITCH_USER", payload: filtered_chats[i] }) }}>
                 <div className="wrap">
                     <div className="meta">
-                        <p className="name">{chats[i].wholeName}</p>
-                        <p className="preview">{chats[i].lastMessage}</p>
+                        <p className="name">{filtered_chats[i].wholeName}</p>
+                        <p className="preview">{filtered_chats[i].lastMessage}</p>
                     </div>
                 </div>
             </li>
@@ -76,7 +80,7 @@ export const SidePanel = props => {
                 </div>
                 <div id="search">
                     <label htmlFor=""><i className="fa fa-search" aria-hidden="true"></i></label>
-                    <input type="text" placeholder="Search contacts..." />
+                    <input type="text" placeholder="Search contacts..." onChange={e => { dispatch({ type: "FILTER_USERS", payload: e.target.value }) }} />
                 </div>
                 <div id="contacts">
                     <ul style={{ "listStyleType": 'none', "paddingLeft": "0px" }}>
