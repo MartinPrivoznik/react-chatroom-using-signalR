@@ -16,7 +16,7 @@
 - I have selected a library called *SignalR* for web socket implementation for streaming incoming messages to clients
 - C# app uses *Entity framework* to connect to *MSSQL* database and retrieve data via **LINQ**
 - Database design is shown on following picture :
-<img src="images/Database.png" width = "250" />
+<img src="images/Database.png" width = "400" />
 
 
 ©Martin Přívozník - SPŠSE a VOŠ Liberec
