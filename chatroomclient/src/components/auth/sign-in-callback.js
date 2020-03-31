@@ -5,11 +5,10 @@ import { Redirect } from "react-router";
 export const SignInCallback = props => {
     const [{ userId, userManager, accessToken, profile, idToken }] = useAuthContext();
     const [callbacked, setCallback] = useState(false);
-    let users = [];
 
     const postUser = () => {
         (async () => {
-            const res = await fetch(process.env.REACT_APP_API_URL + "/user" ,{
+            const res = await fetch(process.env.REACT_APP_API_URL + "/user", {
                 method: "POST",
                 headers: {
                     Authorization: "Bearer " + idToken,
@@ -30,19 +29,19 @@ export const SignInCallback = props => {
                 console.log("error");
             }
         })();
-        }
-
-        if (accessToken === null){
-            if(callbacked === false){
-                userManager.signinRedirectCallback();
-                setCallback(true);
-            }
-            return <div><center><h2>Loading</h2></center></div>;
-        }
-        else{
-            postUser();
-            return <Redirect to="/chat" />;
-        }
     }
+
+    if (accessToken === null) {
+        if (callbacked === false) {
+            userManager.signinRedirectCallback();
+            setCallback(true);
+        }
+        return <div><center><h2>Loading</h2></center></div>;
+    }
+    else {
+        postUser();
+        return <Redirect to="/chat" />;
+    }
+}
 
 export default SignInCallback;

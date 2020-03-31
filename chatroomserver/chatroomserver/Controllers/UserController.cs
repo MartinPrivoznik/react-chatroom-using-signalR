@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using chatroomserver.Core;
 using chatroomserver.Helpers.ResponseModel;
@@ -30,9 +31,12 @@ namespace chatroomserver.Controllers
         {
             try
             {
-                
+
                 var response = await _usersController.GetUsers();
-                return Ok(response);
+                return Ok(response.Where(usr => usr.Id != (HttpContext.User.Claims
+                    .Where(claim => claim.Type == ClaimTypes.NameIdentifier))
+                    .FirstOrDefault()
+                    .Value));
             }
             catch (Exception e)
             {
