@@ -15,7 +15,7 @@ namespace chatroomserver.Repository
         private readonly pslib_chatroomContext _context;
 
         /// <summary>
-        /// Class using CRUD rules
+        /// Messages class implementing CRUD
         /// </summary>
         /// <param name="context"></param>
         public MessagesController(pslib_chatroomContext context)

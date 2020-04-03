@@ -16,6 +16,10 @@ namespace chatroomserver.Repository
     {
         private readonly pslib_chatroomContext _context;
 
+        /// <summary>
+        /// User class implementing CRUD
+        /// </summary>
+        /// <param name="context"></param>
         public UsersController(pslib_chatroomContext context)
         {
             _context = context;

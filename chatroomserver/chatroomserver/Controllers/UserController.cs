@@ -44,13 +44,6 @@ namespace chatroomserver.Controllers
             }
         }
 
-        // GET: api/User/5
-        [HttpGet("{id}", Name = "Get")]
-        public string Get(int id)
-        {
-            return "value";
-        }
-
         // POST: api/User
         [HttpPost]
         public async Task<ActionResult<object>> PostUser(Users user)
@@ -71,18 +64,6 @@ namespace chatroomserver.Controllers
 
             return Ok();
             //return Ok( (await _usersController.GetUsers()).ToArray());
-        }
-
-        // PUT: api/User/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
         }
     }
 }

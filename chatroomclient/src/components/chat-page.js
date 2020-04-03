@@ -39,6 +39,42 @@ const ChatPage = props => {
                             <li className="sent">
                                 <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Integer lacinia. Integer malesuada.</p>
                             </li>
+                            <li className="sent">
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In convallis. Integer rutrum, orci vestibulum ullamcorper ultricies, lacus quam ultricies odio, vitae placerat pede sem sit amet enim. Praesent vitae arcu tempor neque lacinia pretium. Mauris metus. Cum sociis natoque penatibus et magnis dis parturient montes</p>
+                            </li>
+                            <li className="replies">
+                                <p>nascetur ridiculus mus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Nullam faucibus mi quis velit. Aliquam erat volutpat. Integer in sapien. Maecenas sollicitudin. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor.</p>
+                            </li>
+                            <li className="replies">
+                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            </li>
+                            <li className="sent">
+                                <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Integer lacinia. Integer malesuada.</p>
+                            </li>
+                            <li className="sent">
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In convallis. Integer rutrum, orci vestibulum ullamcorper ultricies, lacus quam ultricies odio, vitae placerat pede sem sit amet enim. Praesent vitae arcu tempor neque lacinia pretium. Mauris metus. Cum sociis natoque penatibus et magnis dis parturient montes</p>
+                            </li>
+                            <li className="replies">
+                                <p>nascetur ridiculus mus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Nullam faucibus mi quis velit. Aliquam erat volutpat. Integer in sapien. Maecenas sollicitudin. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor.</p>
+                            </li>
+                            <li className="replies">
+                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            </li>
+                            <li className="sent">
+                                <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Integer lacinia. Integer malesuada.</p>
+                            </li>
+                            <li className="sent">
+                                <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. In convallis. Integer rutrum, orci vestibulum ullamcorper ultricies, lacus quam ultricies odio, vitae placerat pede sem sit amet enim. Praesent vitae arcu tempor neque lacinia pretium. Mauris metus. Cum sociis natoque penatibus et magnis dis parturient montes</p>
+                            </li>
+                            <li className="replies">
+                                <p>nascetur ridiculus mus. Temporibus autem quibusdam et aut officiis debitis aut rerum necessitatibus saepe eveniet ut et voluptates repudiandae sint et molestiae non recusandae. Nullam faucibus mi quis velit. Aliquam erat volutpat. Integer in sapien. Maecenas sollicitudin. Duis sapien nunc, commodo et, interdum suscipit, sollicitudin et, dolor.</p>
+                            </li>
+                            <li className="replies">
+                                <p>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+                            </li>
+                            <li className="sent">
+                                <p> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Integer lacinia. Integer malesuada.</p>
+                            </li>
                         </ul>
                     </div>
                     <div className="message-input">
