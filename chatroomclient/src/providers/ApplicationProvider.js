@@ -4,6 +4,7 @@ import chatModel from '../model/chat-model';
 export const SET_USER_SIGNED = "SET_USER_SIGNED";
 export const SWITCH_USER = "SWITCH_USER";
 export const SET_USERS_LOADED = "SET_USERS_LOADED";
+export const LOAD_CHAT = "LOAD_CHAT";
 export const LOAD_CONVERSATIONS = "LOAD_CONVERSATIONS";
 export const FILTER_USERS = "FILTER_USERS";
 
@@ -22,6 +23,10 @@ const reducer = (state, action) => {
         }
         case SET_USERS_LOADED: {
             return { ...state, usersLoaded: action.payload };
+        }
+        case LOAD_CHAT: {
+            model.LoadChat(action.payload);
+            return model;
         }
         case LOAD_CONVERSATIONS: {
             model.LoadConversations(action.payload.convos);

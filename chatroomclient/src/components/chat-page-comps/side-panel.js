@@ -39,10 +39,28 @@ export const SidePanel = props => {
         })();
     }
 
+    const getMessages = (targetId) => {
+        (async () => {
+            const res = await fetch(process.env.REACT_APP_API_URL + "/message/" + targetId, {
+                method: "GET",
+                headers: {
+                    Authorization: "Bearer " + idToken,
+                    "Content-Type": "application/json"
+                }
+            });
+            if (res.ok) {
+                const messages = await res.json();
+                dispatch({ type: "LOAD_CHAT", payload: messages });
+            } else {
+                console.log("error");
+            }
+        })();
+    }
+
     let convosWindow = [];
     for (let i = 0; i < filtered_chats.length; i++) {
         convosWindow.push(
-            <li className={active_user === filtered_chats[i] ? "contact active" : "contact"} key={i} onClick={() => { dispatch({ type: "SWITCH_USER", payload: filtered_chats[i] }) }}>
+            <li className={active_user === filtered_chats[i] ? "contact active" : "contact"} key={i} onClick={() => { dispatch({ type: "SWITCH_USER", payload: filtered_chats[i] }); getMessages(filtered_chats[i].id); }}>
                 <div className="wrap">
                     <div className="meta">
                         <p className="name">{filtered_chats[i].wholeName}</p>

@@ -22,9 +22,9 @@ namespace chatroomserver.Controllers
             _messagesController = messagesController;
         }
 
-        // GET: api/Message
-        [HttpGet]
-        public async Task<ActionResult<object>> GetMessagesForUser()
+        // GET: api/Message/targetid
+        [HttpGet("{targetUserId}")]
+        public async Task<ActionResult<object>> GetMessagesForUser(string targetUserId)
         {
             try
             {
@@ -33,14 +33,13 @@ namespace chatroomserver.Controllers
                     .FirstOrDefault()
                     .Value;
 
-                var response = (await _messagesController.GetMessages()).Where(mess => mess.UserId == id || mess.TargetUserId == id);
+                var response = (await _messagesController.GetMessages()).Where(mess => (mess.UserId == id && mess.TargetUserId == targetUserId) || (mess.TargetUserId == id && mess.UserId == targetUserId));
                 return Ok(
                     response
                     .Select(res => 
                         new { res.Text,
                               res.Time,
-                              res.UserId,
-                              res.TargetUserId
+                              isTargeted = res.TargetUserId == id ? true : false
                         })
                     );
             }
