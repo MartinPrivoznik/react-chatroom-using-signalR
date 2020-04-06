@@ -14,7 +14,7 @@ class chatModel {
       chats: [],
       messages: [],
       filtered_chats: [],
-      active_user: { wholeName: "", id: "", lastMessage: "" },
+      active_user: { wholeName: "", id: "", lastMessage: { text: "", date: null } },
       usersLoaded: false
     };
 
@@ -40,6 +40,10 @@ class chatModel {
         return (chat.wholeName.toLowerCase()).includes(text.toLowerCase());
       })
     }
+  }
+
+  AddMessage(text, isTargeted) {
+    this.messages.push({ text: text, time: Date.now(), isTargeted: isTargeted });
   }
 }
 

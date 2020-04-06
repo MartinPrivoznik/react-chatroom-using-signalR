@@ -4,9 +4,11 @@ import chatModel from '../model/chat-model';
 export const SET_USER_SIGNED = "SET_USER_SIGNED";
 export const SWITCH_USER = "SWITCH_USER";
 export const SET_USERS_LOADED = "SET_USERS_LOADED";
+export const SET_CHAT_LOADED = "SET_CHAT_LOADED";
 export const LOAD_CHAT = "LOAD_CHAT";
 export const LOAD_CONVERSATIONS = "LOAD_CONVERSATIONS";
 export const FILTER_USERS = "FILTER_USERS";
+export const ADD_MESSAGE = "ADD_MESSAGE";
 
 const initialState = chatModel.initialize();
 
@@ -34,6 +36,10 @@ const reducer = (state, action) => {
         }
         case FILTER_USERS: {
             model.Filter(action.payload);
+            return model;
+        }
+        case ADD_MESSAGE: {
+            model.AddMessage(action.payload.text, action.payload.isTargeted);
             return model;
         }
         default: {

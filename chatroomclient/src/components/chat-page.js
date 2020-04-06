@@ -6,28 +6,37 @@ import { useApplicationContext } from "../providers/ApplicationProvider";
 
 const ChatPage = props => {
     const [{ userManager, accessToken, idToken }] = useAuthContext();
-    const [{ messages, active_user }] = useApplicationContext();
+    const [{ messages, active_user }, dispatch] = useApplicationContext();
     const [text, setText] = useState("");
 
     const postMessage = (senttext) => {
-        (async () => {
-            setText("");
-            const res = await fetch(process.env.REACT_APP_API_URL + "/message", {
-                method: "POST",
-                headers: {
-                    Authorization: "Bearer " + idToken,
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    targetuserid: active_user.id,
-                    text: senttext
-                })
-            });
-            if (res.ok) {
-            } else {
-                console.log("error");
-            }
-        })();
+        if (senttext.replace(/\s+/g, '') !== "") {
+            (async () => {
+                setText("");
+                const res = await fetch(process.env.REACT_APP_API_URL + "/message", {
+                    method: "POST",
+                    headers: {
+                        Authorization: "Bearer " + idToken,
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        targetuserid: active_user.id,
+                        text: senttext
+                    })
+                });
+                if (res.ok) {
+                    dispatch({ type: "ADD_MESSAGE", payload: { text: senttext, isTargeted: false } });
+                } else {
+                    console.log("error");
+                }
+            })();
+        }
+    }
+
+    const postMessageEnter = (event) => {
+        if (event.key === "Enter") {
+            postMessage(text);
+        }
     }
 
     let messagesWindows = [];
@@ -63,7 +72,7 @@ const ChatPage = props => {
                     </div>
                     <div className="message-input">
                         <div className="wrap">
-                            <input type="text" placeholder="Write your message..." value={text} onChange={e => { setText(e.target.value) }} />
+                            <input type="text" placeholder="Write your message..." value={text} onChange={e => { setText(e.target.value) }} onKeyPress={postMessageEnter} />
                             <button className="submit" type="reset" onClick={() => postMessage(text)}><i className="fa fa-paper-plane" aria-hidden="true"></i></button>
                         </div>
                     </div>

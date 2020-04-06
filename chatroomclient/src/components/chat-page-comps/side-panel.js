@@ -31,8 +31,13 @@ export const SidePanel = props => {
                     }
                     );
                 }
+                convos.sort(function (a, b) {
+                    var dateA = new Date(a.lastMessage.date), dateB = new Date(b.lastMessage.date);
+                    return dateB - dateA;
+                });
                 dispatch({ type: "SET_USERS_LOADED", payload: true });
                 dispatch({ type: "LOAD_CONVERSATIONS", payload: { convos } });
+                getMessages(convos[0].id);
             } else {
                 console.log("error");
             }
@@ -50,6 +55,7 @@ export const SidePanel = props => {
             });
             if (res.ok) {
                 const messages = await res.json();
+                dispatch({ type: "SET_CHAT_LOADED", payload: true });
                 dispatch({ type: "LOAD_CHAT", payload: messages });
             } else {
                 console.log("error");
@@ -64,7 +70,7 @@ export const SidePanel = props => {
                 <div className="wrap">
                     <div className="meta">
                         <p className="name">{filtered_chats[i].wholeName}</p>
-                        <p className="preview">{filtered_chats[i].lastMessage}</p>
+                        <p className="preview">{filtered_chats[i].lastMessage.text}</p>
                     </div>
                 </div>
             </li>

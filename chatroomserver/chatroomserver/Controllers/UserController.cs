@@ -31,17 +31,20 @@ namespace chatroomserver.Controllers
         {
             try
             {
-                return Ok((await _usersController.GetUsers()).Where(usr => usr.Id != (HttpContext.User.Claims
-                    .Where(claim => claim.Type == ClaimTypes.NameIdentifier))
+                var id = HttpContext.User.Claims
+                    .Where(claim => claim.Type == ClaimTypes.NameIdentifier)
                     .FirstOrDefault()
-                    .Value)
+                    .Value;
+
+                return Ok((await _usersController.GetUsers())
+                    .Where(usr => usr.Id != id)
                     .Select(usr => new {
                         usr.Id,
                         usr.GivenName,
                         usr.MiddleName,
                         usr.LastName,
                         usr.PreferredUsername,
-                        lastMessage = getLastMessage(usr)
+                        lastMessage = getLastMessage(usr, id)
                     }));
             }
             catch (Exception e)
@@ -72,35 +75,41 @@ namespace chatroomserver.Controllers
             //return Ok( (await _usersController.GetUsers()).ToArray());
         }
 
-        private string getLastMessage(Users user)
+        private object getLastMessage(Users user, string userId)
         {
-            var lastOwnMessage = user.MessagesUser.OrderByDescending(mess => mess.Time).FirstOrDefault();
-            var lastTargetedMessage = user.MessagesTargetUser.OrderByDescending(mess => mess.Time).FirstOrDefault(); ;
+            var lastOwnMessage = user.MessagesUser
+                .Where(mess => mess.TargetUserId == userId && mess.UserId == user.Id)
+                .OrderByDescending(mess => mess.Time)
+                .FirstOrDefault();
+            var lastTargetedMessage = user.MessagesTargetUser
+                .Where(mess => mess.TargetUserId == user.Id && mess.UserId == userId)
+                .OrderByDescending(mess => mess.Time)
+                .FirstOrDefault();
 
             if(lastOwnMessage == null && lastTargetedMessage == null)
             {
-                return "";
+                return new { text = "", date = DateTime.MinValue};
             }
             else if(lastOwnMessage != null && lastTargetedMessage == null)
             {
-                return lastOwnMessage.Text;
+                return new { text = lastOwnMessage.Text, date = lastOwnMessage.Time };
             }
             else if(lastOwnMessage == null && lastTargetedMessage != null)
             {
-                return lastTargetedMessage.Text;
+                return new { text = lastTargetedMessage.Text, date = lastTargetedMessage.Time };
             }
             else
             {
                 switch(Nullable.Compare<DateTime>(lastOwnMessage.Time, lastTargetedMessage.Time))
                 {
                     case -1:
-                        return lastTargetedMessage.Text;
+                        return new { text = lastTargetedMessage.Text, date = lastTargetedMessage.Time };
                     case 0:
-                        return lastOwnMessage.Text;
+                        return new { text = lastOwnMessage.Text, date = lastOwnMessage.Time };
                     case 1:
-                        return lastOwnMessage.Text;
+                        return new { text = lastOwnMessage.Text, date = lastOwnMessage.Time };
                     default:
-                        return lastOwnMessage.Text;
+                        return new { text = lastOwnMessage.Text, date = lastOwnMessage.Time };
                 }
             }
         }
