@@ -51,10 +51,16 @@ namespace chatroomserver.Controllers
 
         // POST: api/User
         [HttpPost]
-        public async Task<ActionResult<object>> PostMessage(Messages user)
+        public async Task<ActionResult<object>> PostMessage(Messages message)
         {
             try
             {
+                var id = HttpContext.User.Claims
+                    .Where(claim => claim.Type == ClaimTypes.NameIdentifier)
+                    .FirstOrDefault()
+                    .Value;
+
+                await _messagesController.PostMessages(new Messages { TargetUserId = message.TargetUserId, UserId = id, Text = message.Text, Time = DateTime.Now });
                 return Ok();
             }
             catch (Exception e)

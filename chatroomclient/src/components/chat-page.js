@@ -1,12 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import '../CSS/chatroom.css'
 import { useAuthContext } from "../providers/AuthProvider";
 import SidePanel from './chat-page-comps/side-panel';
 import { useApplicationContext } from "../providers/ApplicationProvider";
 
 const ChatPage = props => {
-    const [{ userManager, accessToken }] = useAuthContext();
+    const [{ userManager, accessToken, idToken }] = useAuthContext();
     const [{ messages, active_user }] = useApplicationContext();
+    const [text, setText] = useState("");
+
+    const postMessage = (senttext) => {
+        (async () => {
+            setText("");
+            const res = await fetch(process.env.REACT_APP_API_URL + "/message", {
+                method: "POST",
+                headers: {
+                    Authorization: "Bearer " + idToken,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    targetuserid: active_user.id,
+                    text: senttext
+                })
+            });
+            if (res.ok) {
+            } else {
+                console.log("error");
+            }
+        })();
+    }
 
     let messagesWindows = [];
     for (let i = 0; i < messages.length; i++) {
@@ -41,8 +63,8 @@ const ChatPage = props => {
                     </div>
                     <div className="message-input">
                         <div className="wrap">
-                            <input type="text" placeholder="Write your message..." />
-                            <button className="submit"><i className="fa fa-paper-plane" aria-hidden="true"></i></button>
+                            <input type="text" placeholder="Write your message..." value={text} onChange={e => { setText(e.target.value) }} />
+                            <button className="submit" type="reset" onClick={() => postMessage(text)}><i className="fa fa-paper-plane" aria-hidden="true"></i></button>
                         </div>
                     </div>
                 </div>
