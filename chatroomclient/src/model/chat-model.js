@@ -43,7 +43,13 @@ class chatModel {
   }
 
   AddMessage(text, isTargeted) {
-    this.messages.push({ text: text, time: Date.now(), isTargeted: isTargeted });
+    let date = Date.now();
+    this.messages.push({ text: text, time: date, isTargeted: isTargeted });
+    this.active_user.lastMessage = { text: text, date: date };
+    this.chats.sort(function (a, b) {
+      var dateA = new Date(a.lastMessage.date), dateB = new Date(b.lastMessage.date);
+      return dateB - dateA;
+    });
   }
 }
 

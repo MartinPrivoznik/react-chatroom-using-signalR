@@ -506,10 +506,10 @@
     color: #435f7a;
   }
   #frame .content .messages {
-    height: 100%;
+    height: 85%;
     width: 100%;
     min-height: calc(100% - 93px);
-    max-height: 100%;
+    max-height: 85%;
     overflow-y: scroll;
     overflow-x: hidden;
     margin: 0 0 0 25px;
