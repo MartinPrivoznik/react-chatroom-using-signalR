@@ -24,7 +24,6 @@ export const SignInCallback = props => {
                 })
             });
             if (res.ok) {
-                // ... 
             } else {
                 console.log("error");
             }

@@ -31,12 +31,18 @@ namespace chatroomserver.Controllers
         {
             try
             {
-
-                var response = await _usersController.GetUsers();
-                return Ok(response.Where(usr => usr.Id != (HttpContext.User.Claims
+                return Ok((await _usersController.GetUsers()).Where(usr => usr.Id != (HttpContext.User.Claims
                     .Where(claim => claim.Type == ClaimTypes.NameIdentifier))
                     .FirstOrDefault()
-                    .Value));
+                    .Value)
+                    .Select(usr => new {
+                        usr.Id,
+                        usr.GivenName,
+                        usr.MiddleName,
+                        usr.LastName,
+                        usr.PreferredUsername,
+                        lastMessage = getLastMessage(usr)
+                    }));
             }
             catch (Exception e)
             {
@@ -64,6 +70,39 @@ namespace chatroomserver.Controllers
 
             return Ok();
             //return Ok( (await _usersController.GetUsers()).ToArray());
+        }
+
+        private string getLastMessage(Users user)
+        {
+            var lastOwnMessage = user.MessagesUser.OrderByDescending(mess => mess.Time).FirstOrDefault();
+            var lastTargetedMessage = user.MessagesTargetUser.OrderByDescending(mess => mess.Time).FirstOrDefault(); ;
+
+            if(lastOwnMessage == null && lastTargetedMessage == null)
+            {
+                return "";
+            }
+            else if(lastOwnMessage != null && lastTargetedMessage == null)
+            {
+                return lastOwnMessage.Text;
+            }
+            else if(lastOwnMessage == null && lastTargetedMessage != null)
+            {
+                return lastTargetedMessage.Text;
+            }
+            else
+            {
+                switch(Nullable.Compare<DateTime>(lastOwnMessage.Time, lastTargetedMessage.Time))
+                {
+                    case -1:
+                        return lastTargetedMessage.Text;
+                    case 0:
+                        return lastOwnMessage.Text;
+                    case 1:
+                        return lastOwnMessage.Text;
+                    default:
+                        return lastOwnMessage.Text;
+                }
+            }
         }
     }
 }

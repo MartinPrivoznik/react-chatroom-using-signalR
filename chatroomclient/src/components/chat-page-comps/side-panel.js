@@ -27,7 +27,7 @@ export const SidePanel = props => {
                     convos.push({
                         id: users[index].id,
                         wholeName: isEmptyOrSpaces(users[index].middleName) ? users[index].givenName + " " + users[index].lastName : users[index].givenName + " " + users[index].middleName + " " + users[index].lastName,
-                        lastMessage: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Integer lacinia. Integer malesuada."
+                        lastMessage: users[index].lastMessage
                     }
                     );
                 }
@@ -65,7 +65,7 @@ export const SidePanel = props => {
                 <div id="bottom-bar">
                     <button id="addcontact" onClick={
                         () => { userManager.signoutRedirect({ id_token_hint: idToken }); userManager.clearStaleState() }
-                    }><span>Odhlásit</span></button>
+                    }><span>Logout</span></button>
                 </div>
             </div>
         );
@@ -90,7 +90,7 @@ export const SidePanel = props => {
                 <div id="bottom-bar">
                     <button id="addcontact" onClick={
                         () => { userManager.signoutRedirect({ id_token_hint: idToken }); userManager.clearStaleState() }
-                    }><span>Odhlásit</span></button>
+                    }><span>Logout</span></button>
                 </div>
             </div>);
     }

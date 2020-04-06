@@ -27,7 +27,7 @@ namespace chatroomserver.Repository
 
         public async Task<IEnumerable<Users>> GetUsers()
         {
-            return await _context.Users.ToListAsync();
+            return await _context.Users.Include(usr => usr.MessagesUser).Include(usr => usr.MessagesTargetUser).ToListAsync();
         }
 
         public async Task<Users> GetUsers(string id)

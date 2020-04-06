@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using chatroomserver.Core;
 using chatroomserver.Models;
@@ -23,12 +24,25 @@ namespace chatroomserver.Controllers
 
         // GET: api/Message
         [HttpGet]
-        public async Task<ActionResult<object>> GetMessages()
+        public async Task<ActionResult<object>> GetMessagesForUser()
         {
             try
             {
-                var response = await _messagesController.GetMessages();
-                return Ok();
+                var id = HttpContext.User.Claims
+                    .Where(claim => claim.Type == ClaimTypes.NameIdentifier)
+                    .FirstOrDefault()
+                    .Value;
+
+                var response = (await _messagesController.GetMessages()).Where(mess => mess.UserId == id || mess.TargetUserId == id);
+                return Ok(
+                    response
+                    .Select(res => 
+                        new { res.Text,
+                              res.Time,
+                              res.UserId,
+                              res.TargetUserId
+                        })
+                    );
             }
             catch (Exception e)
             {
