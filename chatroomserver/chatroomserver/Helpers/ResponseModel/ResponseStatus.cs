@@ -10,6 +10,11 @@ namespace chatroomserver.Helpers.ResponseModel
         private ReturnStatus.Status _status;
         private string _message;
 
+        /// <summary>
+        /// Internal response status to indicate types of errors
+        /// </summary>
+        /// <param name="status"></param>
+        /// <param name="message"></param>
         public ResponseStatus(ReturnStatus.Status status, string message = "")
         {
             _status = status;
@@ -31,9 +36,11 @@ namespace chatroomserver.Helpers.ResponseModel
 
         public ReturnStatus.Status Status { get => _status; }
 
-        //0 == OK
-        //1 == User Exists
-        //2 == Database internal error
+        /// <summary>
+        ///0 == OK
+        ///1 == User Exists
+        ///2 == Database internal error
+        /// </summary>
         public int Key { get; set; }
 
         public string Message { get => _message; }
