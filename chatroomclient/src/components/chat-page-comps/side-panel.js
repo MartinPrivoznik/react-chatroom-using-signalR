@@ -4,7 +4,7 @@ import { useAuthContext } from "../../providers/AuthProvider";
 import { useApplicationContext } from "../../providers/ApplicationProvider";
 
 export const SidePanel = props => {
-    const [{ userManager, profile, idToken }] = useAuthContext();
+    const [{ userId, userManager, profile, idToken }] = useAuthContext();
     const [{ usersLoaded, active_user, filtered_chats }, dispatch] = useApplicationContext();
 
     const isEmptyOrSpaces = str => {
@@ -36,7 +36,7 @@ export const SidePanel = props => {
                     return dateB - dateA;
                 });
                 dispatch({ type: "SET_USERS_LOADED", payload: true });
-                dispatch({ type: "LOAD_CONVERSATIONS", payload: { convos } });
+                dispatch({ type: "LOAD_CONVERSATIONS", payload: { convos, userId } });
                 getMessages(convos[0].id);
             } else {
                 console.log("error");

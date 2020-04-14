@@ -35,13 +35,14 @@ namespace chatroomserver
                 {
                     policy.WithOrigins("http://localhost:3000")
                           .AllowAnyHeader()
-                          .AllowAnyMethod();
+                          .AllowAnyMethod()
+                          .AllowCredentials();
                 });
             });
 
             services.AddDbContext<pslib_chatroomContext>();
 
-            services.AddScoped<IUsersManager, UsersManager>();
+            services.AddSingleton<IUsersManager, UsersManager>();
 
             services.AddTransient<IMessagesController, MessagesController>();
             services.AddTransient<IUsersController, UsersController>();

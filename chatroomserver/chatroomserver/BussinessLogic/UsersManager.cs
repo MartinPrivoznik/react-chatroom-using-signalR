@@ -28,6 +28,11 @@ namespace chatroomserver.BussinessLogic
         {
             return Task.Run(() =>
             {
+                var usr = _onlineUsers.Where(usr => usr.Id == userId).FirstOrDefault();
+                if (usr != null)
+                {
+                    _onlineUsers.Remove(usr);
+                }
                 _onlineUsers.Add(new OnlineUser { Id = userId, ConnectionId = connectionId, TimeJoined = DateTime.Now });
             });
         }

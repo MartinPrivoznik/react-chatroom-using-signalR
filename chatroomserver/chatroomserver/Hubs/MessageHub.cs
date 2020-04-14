@@ -25,9 +25,21 @@ namespace chatroomserver.Hubs
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        public Task JoinChat(string userId)
+        public Task<bool> JoinChat(string userId)
         {
-             return _usersManager.AddOnlineUser(userId, Context.ConnectionId);
+            return Task.Run(() =>
+            {
+                try
+                {
+                    _usersManager.AddOnlineUser(userId, Context.ConnectionId);
+                    return true;
+                }
+                catch
+                {
+                    return false;
+                }
+            });
+             
         }
 
         /// <summary>

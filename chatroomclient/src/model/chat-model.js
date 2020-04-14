@@ -1,5 +1,3 @@
-//import chatPiece from './chat-piece';
-
 class chatModel {
   constructor(chatData) {
     this.chats = chatData.chats; //Conversations shown on left panel
@@ -17,6 +15,7 @@ class chatModel {
       active_user: { wholeName: "", id: "", lastMessage: { text: "", date: null } },
       usersLoaded: false
     };
+
 
     return new chatModel(data);
   }
@@ -42,14 +41,29 @@ class chatModel {
     }
   }
 
-  AddMessage(text, isTargeted) {
-    let date = Date.now();
-    this.messages.push({ text: text, time: date, isTargeted: isTargeted });
-    this.active_user.lastMessage = { text: text, date: date };
-    this.chats.sort(function (a, b) {
-      var dateA = new Date(a.lastMessage.date), dateB = new Date(b.lastMessage.date);
-      return dateB - dateA;
-    });
+  AddMessage(text, isTargeted, userId) {
+    if (isTargeted === true) {
+      let date = Date.now();
+      for (let i = 0; i < this.filtered_chats.length; i++) {
+        if (this.filtered_chats[i].id === userId) {
+          this.filtered_chats[i].lastMessage = { text: text, date: date };
+        }
+      }
+      this.chats.sort(function (a, b) {
+        var dateA = new Date(a.lastMessage.date), dateB = new Date(b.lastMessage.date);
+        return dateB - dateA;
+      });
+    }
+    else {
+      let date = Date.now();
+      this.messages.push({ text: text, time: date, isTargeted: isTargeted });
+      this.active_user.lastMessage = { text: text, date: date };
+      this.chats.sort(function (a, b) {
+        var dateA = new Date(a.lastMessage.date), dateB = new Date(b.lastMessage.date);
+        return dateB - dateA;
+      });
+    }
+
   }
 }
 
