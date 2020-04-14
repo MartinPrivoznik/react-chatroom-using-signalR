@@ -20,16 +20,19 @@ class chatModel {
     return new chatModel(data);
   }
 
+  //loads current shown chat
   LoadChat(mess) {
     this.messages = mess;
   }
 
+  //loads conversations in side panel
   LoadConversations(users) {
     this.chats = users;
     this.filtered_chats = this.chats;
     this.active_user = this.chats[0];
   }
 
+  //Message filter
   Filter(text) {
     if (text === "") {
       this.filtered_chats = this.chats;
@@ -41,7 +44,9 @@ class chatModel {
     }
   }
 
+  //Adds a message and sorts side panel
   AddMessage(text, isTargeted, userId) {
+    //isTargeted = true if message is for current user from socket
     if (isTargeted === true) {
       let date = Date.now();
       for (let i = 0; i < this.filtered_chats.length; i++) {
@@ -53,6 +58,9 @@ class chatModel {
         var dateA = new Date(a.lastMessage.date), dateB = new Date(b.lastMessage.date);
         return dateB - dateA;
       });
+      if (this.active_user.id === userId) {
+        this.messages.push({ text: text, time: date, isTargeted: isTargeted });
+      }
     }
     else {
       let date = Date.now();

@@ -39,7 +39,6 @@ const reducer = (state, action) => {
             return model;
         }
         case ADD_MESSAGE: {
-            console.log("pridavam pane");
             model.AddMessage(action.payload.text, action.payload.isTargeted, action.payload.userId);
             return model;
         }
