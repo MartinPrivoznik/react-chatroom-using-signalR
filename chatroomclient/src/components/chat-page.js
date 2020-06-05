@@ -65,7 +65,9 @@ const ChatPage = props => {
                 if (res.ok) {
                     dispatch({ type: "ADD_MESSAGE", payload: { text: senttext, isTargeted: false, userId: userId } });
                 } else {
-                    console.log("error");
+                    if (res.status === 401) {
+                        userManager.signinSilentCallback();
+                    }
                 }
             })();
         }

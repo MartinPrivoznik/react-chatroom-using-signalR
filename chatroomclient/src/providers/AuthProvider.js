@@ -38,6 +38,7 @@ const reducer = (state, action) => {
         case USER_FOUND:
             return { ...state, idToken: action.idToken, accessToken: action.accessToken, userId: action.userId, profile: action.profile, isUserLoading: false }
         case USER_EXPIRED:
+        case USER_EXPIRING:
         case LOAD_USER_ERROR:
         case SILENT_RENEW_ERROR:
         case USER_SIGNED_OUT:

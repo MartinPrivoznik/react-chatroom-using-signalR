@@ -2,6 +2,7 @@ import React from 'react';
 import '../../CSS/chatroom.css';
 import { useAuthContext } from "../../providers/AuthProvider";
 import { useApplicationContext } from "../../providers/ApplicationProvider";
+import { Redirect } from "react-router";
 
 export const SidePanel = props => {
     const [{ userId, userManager, profile, idToken }] = useAuthContext();
@@ -39,7 +40,9 @@ export const SidePanel = props => {
                 dispatch({ type: "LOAD_CONVERSATIONS", payload: { convos, userId } });
                 getMessages(convos[0].id);
             } else {
-                console.log("error");
+                if (res.status === 401) {
+                    return <Redirect to="/unauthorized" />;
+                }
             }
         })();
     }
@@ -58,7 +61,9 @@ export const SidePanel = props => {
                 dispatch({ type: "SET_CHAT_LOADED", payload: true });
                 dispatch({ type: "LOAD_CHAT", payload: messages });
             } else {
-                console.log("error");
+                if (res.status === 401) {
+                    userManager.signinSilentCallback();
+                }
             }
         })();
     }
